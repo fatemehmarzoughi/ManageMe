@@ -1,0 +1,25 @@
+{
+  "root": true,
+  "extends": "@react-native",
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "react-hooks",
+    "react-native",
+    "simple-import-sort"
+  ],
+  "rules": {
+    "semi": ["warn", "always"],
+    "quotes": "off",
+    "no-unused-vars": "warn",
+    "simple-import-sort/imports": "warn",
+    "@typescript-eslint/no-empty-interface": "warn",
+    "@typescript-eslint/no-empty-function": "warn",
+
+    "react-hooks/rules-of-hooks": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "@typescript-eslint/no-unused-vars": "warn"
+  }
+}
