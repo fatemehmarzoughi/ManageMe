@@ -1,10 +1,11 @@
 import {useQuery} from '@realm/react';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useContext, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {Button, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {BoardObjectType, Entities} from 'src/configs';
+import context from 'src/configs/contextConfig/context';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 import {generalStyles} from 'src/constants/baseStyles';
 
@@ -17,7 +18,7 @@ export type BoardFormData = {
 };
 
 export const Home: React.FC = React.memo(() => {
-  const [isCreatingNewBoard, setIsCreatingNewBoard] = useState<boolean>(false);
+  const {isCreatingBoard, setIsCreatingBoard} = useContext(context);
   const {write} = useRealmCRUD();
   const boards = useQuery<BoardObjectType>('Board');
 
@@ -94,13 +95,13 @@ export const Home: React.FC = React.memo(() => {
   const addNewBoard = useMemo(() => {
     return (
       <TouchableOpacity
-        onPress={() => setIsCreatingNewBoard(true)}
+        onPress={() => setIsCreatingBoard(true)}
         style={[styles.newBoard, generalStyles.centrism]}>
         <Icon size={20} name="add-outline" />
         <Text>Create New Board</Text>
       </TouchableOpacity>
     );
-  }, []);
+  }, [setIsCreatingBoard]);
 
   const boardsList = useMemo(
     () => (
@@ -113,18 +114,28 @@ export const Home: React.FC = React.memo(() => {
     [boards],
   );
 
-  return (
-    <View style={generalStyles.container}>
-      {!boards.length ? (
-        isCreatingNewBoard ? (
+  const _render_content = useMemo(() => {
+    console.log(isCreatingBoard);
+
+    return (
+      <>
+        {isCreatingBoard ? (
           createNewBoardForm
-        ) : (
+        ) : !boards.length ? (
           addNewBoard
-        )
-      ) : (
-        <></>
-      )}
-      {boardsList}
-    </View>
-  );
+        ) : (
+          <></>
+        )}
+        {boardsList}
+      </>
+    );
+  }, [
+    boardsList,
+    addNewBoard,
+    boards.length,
+    isCreatingBoard,
+    createNewBoardForm,
+  ]);
+
+  return <View style={generalStyles.container}>{_render_content}</View>;
 });
