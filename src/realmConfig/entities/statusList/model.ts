@@ -1,28 +1,24 @@
-import {Realm} from '@realm/react';
-
-export type BoardObjectType = {
+export type StatusListObjectType = {
   id: string;
   title: string;
-  themId: string;
+  themeId: string;
   coverImage: string;
 };
 
-export class Board extends Realm.Object<Board> {
+export class StatusList extends Realm.Object<StatusList> {
   id!: string;
   title!: string;
-  themId!: string;
+  themeId!: string;
   coverImage!: string;
 
   static schema = {
-    name: 'Board',
-
+    name: 'StatusList',
     properties: {
       id: 'string',
       title: 'string',
       themeId: 'string',
       coverImage: 'string',
     },
-
     primaryKey: 'id',
   };
 }

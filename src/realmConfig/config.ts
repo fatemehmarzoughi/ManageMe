@@ -1,7 +1,7 @@
 import {Realm} from '@realm/react';
 
-import {Board} from './entities';
+import {Board, StatusList, Task, Theme} from './entities';
 
 export const realmConfig: Realm.Configuration = {
-  schema: [Board],
+  schema: [Board, Theme, Task, StatusList],
 };
