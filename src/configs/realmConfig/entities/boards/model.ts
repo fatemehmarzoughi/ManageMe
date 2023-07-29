@@ -1,25 +1,25 @@
 import {Realm} from '@realm/react';
 
 export type BoardObjectType = {
-  id: number;
+  id: string;
   title: string;
-  themId: number;
+  themeId: string;
   coverImage: string;
 };
 
 export class Board extends Realm.Object<Board> {
-  id!: number;
+  id!: string;
   title!: string;
-  themId!: number;
+  themeId!: string;
   coverImage!: string;
 
   static schema = {
     name: 'Board',
 
     properties: {
-      id: 'int',
+      id: 'string',
       title: 'string',
-      themeId: 'int',
+      themeId: 'string',
       coverImage: 'string',
     },
 
