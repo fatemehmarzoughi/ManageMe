@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+    alignSelf: 'flex-start',
   },
   cardPic: {
     width: 100,
