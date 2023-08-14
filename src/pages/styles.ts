@@ -88,10 +88,11 @@ export const styles = StyleSheet.create({
     gap: 10,
   },
   editLabelTextInput: {
-    width: 150,
+    width: 190,
     alignSelf: 'flex-start',
   },
   textInputErrorView: {
     alignSelf: 'flex-start',
+    width: 190,
   },
 });
