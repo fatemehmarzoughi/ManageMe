@@ -38,13 +38,13 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
     let text;
     switch (errors.title?.type) {
       case 'maxLength':
-        text = 'title cannot be more than 50 letters';
+        text = 'Cannot be more than 50 letters';
         break;
       case 'minLength':
-        text = 'title cannot be less than 3 letters';
+        text = 'Cannot be less than 3 letters';
         break;
       case 'required':
-        text = 'title is required';
+        text = 'Title is required';
         break;
 
       default:
@@ -56,14 +56,13 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
   }, [errors.title?.type]);
 
   const saveEdits = useCallback(
-    data => {
-      console.log(data);
+    input => {
       if (pressedItemId) {
         const i = realm.objectForPrimaryKey('Board', pressedItemId);
 
         if (i && i?.isValid()) {
           realm.write(() => {
-            (i as unknown as BoardObjectType).title = data.title;
+            (i as unknown as BoardObjectType).title = input.title;
           });
         }
         setIsModalOpen(false);
