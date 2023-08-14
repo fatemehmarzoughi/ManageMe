@@ -1,7 +1,7 @@
 import {useQuery} from '@realm/react';
 import React, {useCallback, useContext, useMemo} from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Button, FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {Button, Text, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {BoardObjectType, Entities} from 'src/configs';
@@ -9,6 +9,7 @@ import context from 'src/configs/contextConfig/context';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 import {generalStyles} from 'src/constants/baseStyles';
 
+import {BoardsList} from './boardsList';
 import {styles} from './styles';
 
 export type BoardFormData = {
@@ -36,7 +37,6 @@ export const Home: React.FC = React.memo(() => {
 
   const addBoard = useCallback(
     data => {
-      console.log(data);
       write({
         name: Entities.Board,
         object: {
@@ -45,8 +45,9 @@ export const Home: React.FC = React.memo(() => {
           themeId: 'sdfs',
         },
       });
+      setIsCreatingBoard(false);
     },
-    [write],
+    [setIsCreatingBoard, write],
   );
 
   const ErrorTextMessages = useMemo(() => {
@@ -72,12 +73,19 @@ export const Home: React.FC = React.memo(() => {
   const createNewBoardForm = useMemo(() => {
     return (
       <View style={[styles.newBoard, styles.form]}>
+        <TouchableOpacity
+          style={styles.closeForm}
+          onPress={() => setIsCreatingBoard(false)}>
+          <Icon name="close-outline" size={20} />
+        </TouchableOpacity>
         <Controller
           control={control}
           name="title"
           rules={{required: true, minLength: 3, maxLength: 50}}
           render={({field: {onChange, onBlur, value}}) => (
             <TextInput
+              autoFocus
+              style={{fontSize: 16}}
               placeholder="title"
               onBlur={onBlur}
               onChangeText={onChange}
@@ -87,10 +95,21 @@ export const Home: React.FC = React.memo(() => {
         />
         {ErrorTextMessages}
 
-        <Button title="Add" onPress={handleSubmit(addBoard)} />
+        <Button
+          disabled={Boolean(errors.title?.type)}
+          title="Add"
+          onPress={handleSubmit(addBoard)}
+        />
       </View>
     );
-  }, [ErrorTextMessages, control, handleSubmit, addBoard]);
+  }, [
+    control,
+    ErrorTextMessages,
+    errors.title?.type,
+    handleSubmit,
+    addBoard,
+    setIsCreatingBoard,
+  ]);
 
   const addNewBoard = useMemo(() => {
     return (
@@ -103,20 +122,7 @@ export const Home: React.FC = React.memo(() => {
     );
   }, [setIsCreatingBoard]);
 
-  const boardsList = useMemo(
-    () => (
-      <FlatList
-        data={boards}
-        keyExtractor={item => String(item.id)}
-        renderItem={({item}) => <Text>{item.title}</Text>}
-      />
-    ),
-    [boards],
-  );
-
   const _render_content = useMemo(() => {
-    console.log(isCreatingBoard);
-
     return (
       <>
         {isCreatingBoard ? (
@@ -126,16 +132,10 @@ export const Home: React.FC = React.memo(() => {
         ) : (
           <></>
         )}
-        {boardsList}
+        <BoardsList boards={boards} />
       </>
     );
-  }, [
-    boardsList,
-    addNewBoard,
-    boards.length,
-    isCreatingBoard,
-    createNewBoardForm,
-  ]);
+  }, [isCreatingBoard, createNewBoardForm, boards, addNewBoard]);
 
   return <View style={generalStyles.container}>{_render_content}</View>;
 });

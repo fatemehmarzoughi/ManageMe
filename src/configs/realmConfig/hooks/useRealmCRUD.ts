@@ -1,13 +1,31 @@
 import {useRealm} from '@realm/react';
 import {useCallback} from 'react';
 
-import {Entities} from '../entities';
+import {
+  Entities,
+  StatusListObjectType,
+  TaskObjectType,
+  ThemeObjectType,
+} from '../entities';
 import {BoardObjectType} from '../entities/boards';
 
-export type IWrite = {
-  object: Partial<OmittedRealmTypes<BoardObjectType>>;
-  name: Entities;
-};
+export type IWrite =
+  | {
+      name: Entities.Board;
+      object: Partial<OmittedRealmTypes<BoardObjectType>>;
+    }
+  | {
+      name: Entities.Task;
+      object: Partial<OmittedRealmTypes<TaskObjectType>>;
+    }
+  | {
+      name: Entities.StatusList;
+      object: Partial<OmittedRealmTypes<StatusListObjectType>>;
+    }
+  | {
+      name: Entities.Theme;
+      object: Partial<OmittedRealmTypes<ThemeObjectType>>;
+    };
 
 export const useRealmCRUD = () => {
   const realm = useRealm();
@@ -38,5 +56,14 @@ export const useRealmCRUD = () => {
     [generateRandomId, realm],
   );
 
-  return {write};
+  const deleteObject = useCallback(
+    (collection: Omit<IWrite | unknown, 'object' | never>) => {
+      realm.write(() => {
+        realm.delete(collection);
+      });
+    },
+    [realm],
+  );
+
+  return {write, deleteObject, realm};
 };
