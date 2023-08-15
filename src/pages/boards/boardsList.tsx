@@ -1,5 +1,5 @@
 import LottieView from 'lottie-react-native';
-import React, {useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {FlatList, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {Menu, Modal, Portal} from 'react-native-paper';
@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {BoardObjectType} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 import {generalStyles} from 'src/constants';
+import {useErrorMessage} from 'src/hooks';
 
 import {styles} from './styles';
 
@@ -33,27 +34,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
     handleSubmit,
     formState: {errors},
   } = useForm<TitleForm>();
-
-  const ErrorTextMessages = useMemo(() => {
-    let text;
-    switch (errors.title?.type) {
-      case 'maxLength':
-        text = 'Cannot be more than 50 letters';
-        break;
-      case 'minLength':
-        text = 'Cannot be less than 3 letters';
-        break;
-      case 'required':
-        text = 'Title is required';
-        break;
-
-      default:
-        text = '';
-        break;
-    }
-
-    return <Text style={generalStyles.errorText}>{text}</Text>;
-  }, [errors.title?.type]);
+  const {ErrorTextMessages} = useErrorMessage();
 
   const saveEdits = useCallback(
     input => {
@@ -102,7 +83,9 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                         />
                       )}
                     />
-                    {ErrorTextMessages}
+                    <Text style={generalStyles.errorText}>
+                      {ErrorTextMessages({type: errors.title?.type})}
+                    </Text>
                   </View>
                   <TouchableOpacity
                     disabled={Boolean(errors.title?.type)}
@@ -129,7 +112,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
             <LottieView
               loop={false}
               autoPlay={true}
-              source={require('../assets/animations/books.json')}
+              source={require('../../assets/animations/books.json')}
               style={styles.cardPic}
             />
             <TouchableOpacity

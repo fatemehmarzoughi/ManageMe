@@ -8,9 +8,12 @@ import {BoardObjectType, Entities} from 'src/configs';
 import context from 'src/configs/contextConfig/context';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 import {generalStyles} from 'src/constants/baseStyles';
+import {useErrorMessage} from 'src/hooks';
 
 import {BoardsList} from './boardsList';
 import {styles} from './styles';
+import {RadioButton} from 'react-native-paper';
+import {ColorPallet} from 'src/components';
 
 export type BoardFormData = {
   title: string;
@@ -18,7 +21,7 @@ export type BoardFormData = {
   theme: string;
 };
 
-export const Home: React.FC = React.memo(() => {
+export const Boards: React.FC = React.memo(() => {
   const {isCreatingBoard, setIsCreatingBoard} = useContext(context);
   const {write} = useRealmCRUD();
   const boards = useQuery<BoardObjectType>('Board');
@@ -34,9 +37,12 @@ export const Home: React.FC = React.memo(() => {
       coverImage: '',
     },
   });
+  const {ErrorTextMessages} = useErrorMessage();
 
   const addBoard = useCallback(
     data => {
+      console.log(data);
+
       write({
         name: Entities.Board,
         object: {
@@ -49,26 +55,6 @@ export const Home: React.FC = React.memo(() => {
     },
     [setIsCreatingBoard, write],
   );
-
-  const ErrorTextMessages = useMemo(() => {
-    return (
-      <>
-        {errors.title?.type === 'maxLength' ? (
-          <Text style={generalStyles.errorText}>
-            Title cannot be more than 50 letters{' '}
-          </Text>
-        ) : errors.title?.type === 'minLength' ? (
-          <Text style={generalStyles.errorText}>
-            Title cannot be less than 3 letters
-          </Text>
-        ) : errors.title?.type === 'required' ? (
-          <Text style={generalStyles.errorText}>Title is required</Text>
-        ) : (
-          <></>
-        )}
-      </>
-    );
-  }, [errors.title?.type]);
 
   const createNewBoardForm = useMemo(() => {
     return (
@@ -93,7 +79,43 @@ export const Home: React.FC = React.memo(() => {
             />
           )}
         />
-        {ErrorTextMessages}
+        <Text style={generalStyles.errorText}>
+          {ErrorTextMessages({type: errors.title?.type})}
+        </Text>
+
+        <Controller
+          control={control}
+          name="theme"
+          rules={{required: true}}
+          render={({field: {onChange, onBlur, value, name}}) => (
+            <View style={styles.colorsContainer}>
+              <ColorPallet
+                isChecked={value === 'red'}
+                title="red"
+                theme="red"
+                onPress={() => onChange('red')}
+              />
+              <ColorPallet
+                isChecked={value === 'blue'}
+                title="blue"
+                theme="blue"
+                onPress={() => onChange('blue')}
+              />
+              <ColorPallet
+                isChecked={value === 'green'}
+                title="green"
+                theme="green"
+                onPress={() => onChange('green')}
+              />
+              <ColorPallet
+                isChecked={value === 'purple'}
+                title="purple"
+                theme="purple"
+                onPress={() => onChange('purple')}
+              />
+            </View>
+          )}
+        />
 
         <Button
           disabled={Boolean(errors.title?.type)}
