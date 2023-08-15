@@ -64,6 +64,7 @@ export const Boards: React.FC = React.memo(() => {
           onPress={() => setIsCreatingBoard(false)}>
           <Icon name="close-outline" size={20} />
         </TouchableOpacity>
+        <Text style={styles.title}>Choose a Title:</Text>
         <Controller
           control={control}
           name="title"
@@ -72,7 +73,7 @@ export const Boards: React.FC = React.memo(() => {
             <TextInput
               autoFocus
               style={{fontSize: 16}}
-              placeholder="title"
+              placeholder="My title"
               onBlur={onBlur}
               onChangeText={onChange}
               value={value}
@@ -87,33 +88,36 @@ export const Boards: React.FC = React.memo(() => {
           control={control}
           name="theme"
           rules={{required: true}}
-          render={({field: {onChange, onBlur, value, name}}) => (
-            <View style={styles.colorsContainer}>
-              <ColorPallet
-                isChecked={value === 'red'}
-                title="red"
-                theme="red"
-                onPress={() => onChange('red')}
-              />
-              <ColorPallet
-                isChecked={value === 'blue'}
-                title="blue"
-                theme="blue"
-                onPress={() => onChange('blue')}
-              />
-              <ColorPallet
-                isChecked={value === 'green'}
-                title="green"
-                theme="green"
-                onPress={() => onChange('green')}
-              />
-              <ColorPallet
-                isChecked={value === 'purple'}
-                title="purple"
-                theme="purple"
-                onPress={() => onChange('purple')}
-              />
-            </View>
+          render={({field: {onChange, value}}) => (
+            <>
+              <Text style={styles.title}>Choose a theme:</Text>
+              <View style={styles.colorsContainer}>
+                <ColorPallet
+                  isChecked={value === 'red'}
+                  title="red"
+                  theme="red"
+                  onPress={() => onChange('red')}
+                />
+                <ColorPallet
+                  isChecked={value === 'blue'}
+                  title="blue"
+                  theme="blue"
+                  onPress={() => onChange('blue')}
+                />
+                <ColorPallet
+                  isChecked={value === 'green'}
+                  title="green"
+                  theme="green"
+                  onPress={() => onChange('green')}
+                />
+                <ColorPallet
+                  isChecked={value === 'purple'}
+                  title="purple"
+                  theme="purple"
+                  onPress={() => onChange('purple')}
+                />
+              </View>
+            </>
           )}
         />
 
