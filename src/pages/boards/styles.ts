@@ -95,4 +95,13 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     width: 190,
   },
+  colorsContainer: {
+    width: fullWidth - 100,
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 10,
+  },
 });

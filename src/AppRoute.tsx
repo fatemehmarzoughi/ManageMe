@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {BoardObjectType} from './configs';
 import context from './configs/contextConfig/context';
-import {Home} from './pages';
+import {BoardPage, Boards} from './pages';
 import {styles} from './styles';
 
 export const AppRoute = React.memo(() => {
@@ -19,10 +19,10 @@ export const AppRoute = React.memo(() => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Boards">
         <Stack.Screen
-          name="Home"
-          component={Home}
+          name="Boards"
+          component={Boards}
           options={{
             title: 'Boards',
             // eslint-disable-next-line react/no-unstable-nested-components
@@ -37,6 +37,13 @@ export const AppRoute = React.memo(() => {
                 </TouchableOpacity>
               );
             },
+          }}
+        />
+        <Stack.Screen
+          name="BoardSinglePage"
+          component={BoardPage}
+          options={{
+            title: 'Board',
           }}
         />
       </Stack.Navigator>
