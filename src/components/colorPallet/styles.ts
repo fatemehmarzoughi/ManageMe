@@ -1,4 +1,22 @@
 import {StyleSheet} from 'react-native';
+import {
+  backgroundColorBlue,
+  backgroundColorGreen,
+  backgroundColorPurple,
+  backgroundColorRed,
+  primaryColorBlue,
+  primaryColorGreen,
+  primaryColorPurple,
+  primaryColorRed,
+  secondaryColorBlue,
+  secondaryColorGreen,
+  secondaryColorPurple,
+  secondaryColorRed,
+  surfaceColorBlue,
+  surfaceColorGreen,
+  surfaceColorPurple,
+  surfaceColorRed,
+} from 'src/constants';
 
 export const styles = StyleSheet.create({
   container: {
@@ -53,54 +71,54 @@ export const styles = StyleSheet.create({
   /* -------------------------------------------------------------------------- */
   /* ----------------------------------- Red ---------------------------------- */
   firstColorRed: {
-    backgroundColor: '#900C3F',
+    backgroundColor: primaryColorRed,
   },
   secondColorRed: {
-    backgroundColor: '#C70039',
+    backgroundColor: secondaryColorRed,
   },
   thirdColorRed: {
-    backgroundColor: '#F94C10',
+    backgroundColor: surfaceColorRed,
   },
   fourthColorRed: {
-    backgroundColor: '#F8DE22',
+    backgroundColor: backgroundColorRed,
   },
   /* ---------------------------------- Green --------------------------------- */
   firstColorGreen: {
-    backgroundColor: '#C8E4B2',
+    backgroundColor: primaryColorGreen,
   },
   secondColorGreen: {
-    backgroundColor: '#9ED2BE',
+    backgroundColor: secondaryColorGreen,
   },
   thirdColorGreen: {
-    backgroundColor: '#7EAA92',
+    backgroundColor: surfaceColorGreen,
   },
   fourthColorGreen: {
-    backgroundColor: '#FFD9B7',
+    backgroundColor: backgroundColorGreen,
   },
   /* ---------------------------------- Blue ---------------------------------- */
   firstColorBlue: {
-    backgroundColor: '#071952',
+    backgroundColor: primaryColorBlue,
   },
   secondColorBlue: {
-    backgroundColor: '#0B666A',
+    backgroundColor: secondaryColorBlue,
   },
   thirdColorBlue: {
-    backgroundColor: '#35A29F',
+    backgroundColor: surfaceColorBlue,
   },
   fourthColorBlue: {
-    backgroundColor: '#97FEED',
+    backgroundColor: backgroundColorBlue,
   },
   /* --------------------------------- Purple --------------------------------- */
   firstColorPurple: {
-    backgroundColor: '#6528F7',
+    backgroundColor: primaryColorPurple,
   },
   secondColorPurple: {
-    backgroundColor: '#A076F9',
+    backgroundColor: secondaryColorPurple,
   },
   thirdColorPurple: {
-    backgroundColor: '#D7BBF5',
+    backgroundColor: surfaceColorPurple,
   },
   fourthColorPurple: {
-    backgroundColor: '#EDE4FF',
+    backgroundColor: backgroundColorPurple,
   },
 });
