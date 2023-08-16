@@ -58,14 +58,14 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
     <>
       <FlatList
         data={boards}
-        style={styles.boardsList}
+        style={styles().boardsList}
         keyExtractor={item => String(item.id)}
-        renderItem={({item}) => (
-          <TouchableOpacity style={styles.card}>
-            <View style={[styles.cardTitle, generalStyles.centrism]}>
-              {pressedItemId === item.id && isEditing ? (
-                <View style={styles.editLabelView}>
-                  <View style={styles.textInputErrorView}>
+        renderItem={({item: {id, themeId, coverImage, title}}) => (
+          <TouchableOpacity style={styles(themeId).card}>
+            <View style={[styles(themeId).cardTitle, generalStyles.centrism]}>
+              {pressedItemId === id && isEditing ? (
+                <View style={styles(themeId).editLabelView}>
+                  <View style={styles(themeId).textInputErrorView}>
                     <Controller
                       control={control}
                       name="title"
@@ -73,8 +73,11 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                       render={({field: {onChange, value, onBlur}}) => (
                         <TextInput
                           autoFocus
-                          style={[styles.cardText, styles.editLabelTextInput]}
-                          placeholder={item.title}
+                          style={[
+                            styles(themeId).cardText,
+                            styles(themeId).editLabelTextInput,
+                          ]}
+                          placeholder={title}
                           placeholderTextColor={'white'}
                           maxLength={50}
                           onBlur={onBlur}
@@ -100,7 +103,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                   </TouchableOpacity>
                 </View>
               ) : (
-                <Text style={styles.cardText}>{item.title}</Text>
+                <Text style={styles(themeId).cardText}>{title}</Text>
               )}
               <Icon
                 name="apps-outline"
@@ -113,12 +116,12 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
               loop={false}
               autoPlay={true}
               source={require('../../assets/animations/books.json')}
-              style={styles.cardPic}
+              style={styles(themeId).cardPic}
             />
             <TouchableOpacity
-              style={styles.cardOptions}
+              style={styles(themeId).cardOptions}
               onPress={() => {
-                setPressedItemId(item.id);
+                setPressedItemId(id);
                 setIsModalOpen(true);
               }}>
               <Icon name="ellipsis-vertical-outline" color="white" size={15} />
@@ -132,7 +135,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
           onDismiss={() => {
             setIsModalOpen(false);
           }}
-          contentContainerStyle={styles.moreOptions}>
+          contentContainerStyle={styles().moreOptions}>
           <Menu.Item
             title="Edit"
             leadingIcon="pencil"

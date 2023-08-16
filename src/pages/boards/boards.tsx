@@ -4,6 +4,7 @@ import {Controller, useForm} from 'react-hook-form';
 import {Button, Text, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {ColorPallet} from 'src/components';
 import {BoardObjectType, Entities} from 'src/configs';
 import context from 'src/configs/contextConfig/context';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
@@ -12,8 +13,6 @@ import {useErrorMessage} from 'src/hooks';
 
 import {BoardsList} from './boardsList';
 import {styles} from './styles';
-import {RadioButton} from 'react-native-paper';
-import {ColorPallet} from 'src/components';
 
 export type BoardFormData = {
   title: string;
@@ -33,7 +32,7 @@ export const Boards: React.FC = React.memo(() => {
   } = useForm<BoardFormData>({
     defaultValues: {
       title: '',
-      theme: '',
+      theme: 'red',
       coverImage: '',
     },
   });
@@ -48,7 +47,7 @@ export const Boards: React.FC = React.memo(() => {
         object: {
           title: data.title,
           coverImage: 'dsfs',
-          themeId: 'sdfs',
+          themeId: data.theme ?? 'red',
         },
       });
       setIsCreatingBoard(false);
@@ -58,13 +57,13 @@ export const Boards: React.FC = React.memo(() => {
 
   const createNewBoardForm = useMemo(() => {
     return (
-      <View style={[styles.newBoard, styles.form]}>
+      <View style={[styles().newBoard, styles().form]}>
         <TouchableOpacity
-          style={styles.closeForm}
+          style={styles().closeForm}
           onPress={() => setIsCreatingBoard(false)}>
           <Icon name="close-outline" size={20} />
         </TouchableOpacity>
-        <Text style={styles.title}>Choose a Title:</Text>
+        <Text style={styles().title}>Choose a Title:</Text>
         <Controller
           control={control}
           name="title"
@@ -90,8 +89,8 @@ export const Boards: React.FC = React.memo(() => {
           rules={{required: true}}
           render={({field: {onChange, value}}) => (
             <>
-              <Text style={styles.title}>Choose a theme:</Text>
-              <View style={styles.colorsContainer}>
+              <Text style={styles().title}>Choose a theme:</Text>
+              <View style={styles().colorsContainer}>
                 <ColorPallet
                   isChecked={value === 'red'}
                   title="red"
@@ -141,7 +140,7 @@ export const Boards: React.FC = React.memo(() => {
     return (
       <TouchableOpacity
         onPress={() => setIsCreatingBoard(true)}
-        style={[styles.newBoard, generalStyles.centrism]}>
+        style={[styles().newBoard, generalStyles.centrism]}>
         <Icon size={20} name="add-outline" />
         <Text>Create New Board</Text>
       </TouchableOpacity>
