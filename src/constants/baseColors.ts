@@ -27,7 +27,7 @@ export const secondaryColorPurple = '#A076F9';
 export const surfaceColorPurple = '#D7BBF5';
 export const backgroundColorPurple = '#EDE4FF';
 
-export const secondaryColor = (themeId: string): string => {
+export const secondaryColor = (themeId?: string): string => {
   switch (themeId) {
     case 'red':
       return secondaryColorRed;
@@ -43,7 +43,7 @@ export const secondaryColor = (themeId: string): string => {
   }
 };
 
-export const backgroundColor = (themeId: string): string => {
+export const backgroundColor = (themeId?: string): string => {
   switch (themeId) {
     case 'red':
       return backgroundColorRed;
@@ -59,7 +59,7 @@ export const backgroundColor = (themeId: string): string => {
   }
 };
 
-export const primaryColor = (themeId: string): string => {
+export const primaryColor = (themeId?: string): string => {
   switch (themeId) {
     case 'red':
       return primaryColorRed;
