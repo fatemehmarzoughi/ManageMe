@@ -68,7 +68,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
           <TouchableOpacity
             style={styles(themeId).card}
             onPress={() => {
-              navigation.navigate('BoardView', {id, themeId});
+              navigation.navigate('BoardView', {themeId, title});
             }}>
             <View style={[styles(themeId).cardTitle, generalStyles.centrism]}>
               {pressedItemId === id && isEditing ? (

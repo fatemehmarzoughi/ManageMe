@@ -2,6 +2,7 @@ import {StyleSheet} from 'react-native';
 import {
   backgroundColor,
   fullHeight,
+  fullWidth,
   lightGray,
   medium,
   primaryColor,
@@ -19,7 +20,7 @@ export const styles = (themeId?: string) => {
       backgroundColor: backgroundColor(themeId),
     },
     newStatusListHeader: {
-      width: 250,
+      width: (2 * fullWidth) / 3,
       borderRadius: xxxsmall,
     },
     threeDots: {
@@ -54,7 +55,7 @@ export const styles = (themeId?: string) => {
       flexGrow: 0,
     },
     taskCard: {
-      width: 250,
+      width: (2 * fullWidth) / 3,
       backgroundColor: secondaryColor(themeId),
       padding: medium,
       borderRadius: xxxsmall,

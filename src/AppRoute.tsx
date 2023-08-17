@@ -14,7 +14,7 @@ import {styles} from './styles';
 
 export type RootStackParamList = {
   Boards: undefined;
-  BoardView: {themeId: string};
+  BoardView: {themeId: string; title: string};
 };
 
 export const AppRoute = React.memo(() => {
@@ -27,6 +27,7 @@ export const AppRoute = React.memo(() => {
       <Stack.Navigator initialRouteName="Boards">
         <Stack.Screen
           name="Boards"
+          component={Boards}
           options={{
             title: 'Boards',
             // eslint-disable-next-line react/no-unstable-nested-components
@@ -41,16 +42,15 @@ export const AppRoute = React.memo(() => {
                 </TouchableOpacity>
               );
             },
-          }}>
-          {() => <Boards />}
-        </Stack.Screen>
+          }}
+        />
         <Stack.Screen
+          component={BoardView}
           name="BoardView"
-          options={{
-            title: 'Board',
-          }}>
-          {() => <BoardView />}
-        </Stack.Screen>
+          options={({route}) => ({
+            title: route.params.title,
+          })}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
