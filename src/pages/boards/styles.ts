@@ -75,12 +75,6 @@ export const styles = (themeId?: string) => {
       width: 100,
       elevation: 5,
     },
-    moreOptions: {
-      backgroundColor: 'white',
-      padding: 10,
-      borderRadius: 5,
-      margin: 20,
-    },
     editLabelView: {
       display: 'flex',
       flexDirection: 'row',

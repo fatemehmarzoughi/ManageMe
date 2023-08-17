@@ -13,6 +13,7 @@ import {useErrorMessage} from 'src/hooks';
 
 import {BoardsList} from './boardsList';
 import {styles} from './styles';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
 export type BoardFormData = {
   title: string;
