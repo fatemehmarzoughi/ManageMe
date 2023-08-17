@@ -8,8 +8,8 @@ import {StatusList} from './statusList';
 import {styles} from './styles';
 
 export const BoardView: React.FC = React.memo(() => {
-  const {params} = useRoute<RouteProp<RootStackParamList, 'BoardView'>>();
-  const themeId = params.themeId;
+  const route = useRoute<RouteProp<RootStackParamList, 'BoardView'>>();
+  const themeId = route.params.themeId;
 
   const statusList = [{}, {}];
 
