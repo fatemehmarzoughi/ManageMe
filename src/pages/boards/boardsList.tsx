@@ -1,3 +1,4 @@
+import {NavigationProp, useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, {useCallback, useState} from 'react';
 import {Controller, useForm} from 'react-hook-form';
@@ -10,6 +11,7 @@ import {generalStyles} from 'src/constants';
 import {useErrorMessage} from 'src/hooks';
 
 import {styles} from './styles';
+import {PopupMenu} from 'src/components';
 
 export type TitleForm = {
   title: string;
@@ -28,6 +30,8 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [pressedItemId, setPressedItemId] = useState<string | false>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+
+  const navigation = useNavigation<NavigationProp<any, any>>();
 
   const {
     control,
@@ -61,7 +65,11 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
         style={styles().boardsList}
         keyExtractor={item => String(item.id)}
         renderItem={({item: {id, themeId, coverImage, title}}) => (
-          <TouchableOpacity style={styles(themeId).card}>
+          <TouchableOpacity
+            style={styles(themeId).card}
+            onPress={() => {
+              navigation.navigate('BoardView', {id, themeId});
+            }}>
             <View style={[styles(themeId).cardTitle, generalStyles.centrism]}>
               {pressedItemId === id && isEditing ? (
                 <View style={styles(themeId).editLabelView}>
@@ -129,25 +137,24 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
           </TouchableOpacity>
         )}
       />
-      <Portal>
-        <Modal
-          visible={isModalOpen}
-          onDismiss={() => {
-            setIsModalOpen(false);
-          }}
-          contentContainerStyle={styles().moreOptions}>
-          <Menu.Item
-            title="Edit"
-            leadingIcon="pencil"
-            onPress={() => {
+      <PopupMenu
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        IPopupMenuItem={[
+          {
+            id: '0',
+            title: 'Edit',
+            leadingIcon: 'pencil',
+            onPress: () => {
               setIsEditing(true);
               setIsModalOpen(false);
-            }}
-          />
-          <Menu.Item
-            title="Delete"
-            leadingIcon="trash-can-outline"
-            onPress={() => {
+            },
+          },
+          {
+            id: '1',
+            title: 'Delete',
+            leadingIcon: 'trash-can-outline',
+            onPress: () => {
               if (pressedItemId) {
                 const i = realm.objectForPrimaryKey('Board', pressedItemId);
 
@@ -156,10 +163,10 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                 }
                 setIsModalOpen(false);
               }
-            }}
-          />
-        </Modal>
-      </Portal>
+            },
+          },
+        ]}
+      />
     </>
   );
 });
