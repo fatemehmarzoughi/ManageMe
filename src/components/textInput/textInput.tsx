@@ -1,18 +1,30 @@
 import React, {useEffect} from 'react';
 import {Controller, FieldError, UseControllerProps} from 'react-hook-form';
-import {Text, TextInput, View} from 'react-native';
+import {
+  Text,
+  TextInput,
+  TextInputProps,
+  TextProps,
+  View,
+  ViewProps,
+} from 'react-native';
 import {useErrorMessage} from 'src/hooks';
 
 import {styles} from './styles';
 
 export type IMyTextInput = {
-  title: string;
+  title?: string;
   placeholder: string;
   errorType?: FieldError['type'];
+  props?: {
+    root?: ViewProps;
+    textInputProps?: TextInputProps;
+    errorTextProps?: TextProps;
+  };
 } & UseControllerProps;
 
 export const MyTextInput: React.FC<IMyTextInput> = React.memo(
-  ({name, title, rules, control, placeholder, errorType}) => {
+  ({name, title, rules, control, placeholder, errorType, props}) => {
     const {ErrorTextMessages} = useErrorMessage();
 
     useEffect(() => {
@@ -20,8 +32,8 @@ export const MyTextInput: React.FC<IMyTextInput> = React.memo(
     }, [errorType]);
 
     return (
-      <View style={styles().container}>
-        <Text style={styles().title}>{title}</Text>
+      <View style={styles().container} {...props?.root}>
+        {title && <Text style={styles().title}>{title}</Text>}
         <Controller
           control={control}
           name={name}
@@ -33,11 +45,12 @@ export const MyTextInput: React.FC<IMyTextInput> = React.memo(
               placeholder={placeholder}
               onChangeText={onChange}
               value={value}
+              {...props?.textInputProps}
             />
           )}
         />
         {errorType && (
-          <Text style={styles().errorText}>
+          <Text style={styles().errorText} {...props?.errorTextProps}>
             {ErrorTextMessages({type: errorType})}
           </Text>
         )}

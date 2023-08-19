@@ -55,12 +55,17 @@ export const Boards: React.FC = React.memo(() => {
           <Icon name="close-outline" size={20} />
         </TouchableOpacity>
         <MyTextInput
-          control={control}
-          title="Choose a title"
           name="title"
+          control={control}
           placeholder="title"
+          title="Choose a title"
           rules={{required: true, maxLength: 50, minLength: 3}}
           errorType={errors['title']?.type as FieldError['type']}
+          props={{
+            root: {
+              style: styles().textInput,
+            },
+          }}
         />
 
         <Controller
