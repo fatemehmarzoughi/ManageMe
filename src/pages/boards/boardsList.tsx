@@ -1,21 +1,15 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import React, {useCallback, useState} from 'react';
-import {Controller, useForm} from 'react-hook-form';
-import {FlatList, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {Menu, Modal, Portal} from 'react-native-paper';
+import {FieldError, useForm} from 'react-hook-form';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {MyTextInput, PopupMenu} from 'src/components';
 import {BoardObjectType} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 import {generalStyles} from 'src/constants';
-import {useErrorMessage} from 'src/hooks';
 
 import {styles} from './styles';
-import {PopupMenu} from 'src/components';
-
-export type TitleForm = {
-  title: string;
-};
 
 export type ErrorTypes = {
   errorType: 'maxLength' | 'minLength' | 'required';
@@ -37,8 +31,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
     control,
     handleSubmit,
     formState: {errors},
-  } = useForm<TitleForm>();
-  const {ErrorTextMessages} = useErrorMessage();
+  } = useForm();
 
   const saveEdits = useCallback(
     input => {
@@ -74,33 +67,25 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
               {pressedItemId === id && isEditing ? (
                 <View style={styles(themeId).editLabelView}>
                   <View style={styles(themeId).textInputErrorView}>
-                    <Controller
+                    <MyTextInput
                       control={control}
                       name="title"
-                      rules={{maxLength: 50, minLength: 3, required: true}}
-                      render={({field: {onChange, value, onBlur}}) => (
-                        <TextInput
-                          autoFocus
-                          style={[
+                      placeholder={title}
+                      rules={{required: true, minLength: 3, maxLength: 50}}
+                      errorType={errors['title']?.type as FieldError['type']}
+                      props={{
+                        textInputProps: {
+                          style: [
                             styles(themeId).cardText,
                             styles(themeId).editLabelTextInput,
-                          ]}
-                          placeholder={title}
-                          placeholderTextColor={'white'}
-                          maxLength={50}
-                          onBlur={onBlur}
-                          onChangeText={onChange}
-                          value={value}
-                        />
-                      )}
+                          ],
+                          placeholderTextColor: 'white',
+                          maxLength: 50,
+                        },
+                      }}
                     />
-                    <Text style={generalStyles.errorText}>
-                      {ErrorTextMessages({type: errors.title?.type})}
-                    </Text>
                   </View>
-                  <TouchableOpacity
-                    disabled={Boolean(errors.title?.type)}
-                    onPress={handleSubmit(saveEdits)}>
+                  <TouchableOpacity onPress={handleSubmit(saveEdits)}>
                     <Icon name="checkmark-outline" size={20} color="green" />
                   </TouchableOpacity>
                   <TouchableOpacity

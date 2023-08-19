@@ -3,6 +3,7 @@ import {
   fullHeight,
   fullWidth,
   lightGray,
+  medium,
   surfaceColor,
   verticalSpace,
 } from 'src/constants';
@@ -101,6 +102,10 @@ export const styles = (themeId?: string) => {
     },
     title: {
       marginBottom: 10,
+      color: 'black',
+    },
+    textInput: {
+      marginBottom: medium,
     },
   });
 };

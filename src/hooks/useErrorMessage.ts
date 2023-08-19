@@ -1,27 +1,7 @@
 import {useCallback} from 'react';
-import {LiteralUnion} from 'react-hook-form';
+import {FieldError} from 'react-hook-form';
 
-export type ErrorTypes =
-  | LiteralUnion<
-      | 'maxLength'
-      | 'minLength'
-      | 'required'
-      | 'pattern'
-      | 'min'
-      | 'max'
-      | 'validate'
-      | 'value'
-      | 'setValueAs'
-      | 'shouldUnregister'
-      | 'onChange'
-      | 'onBlur'
-      | 'disabled'
-      | 'deps'
-      | 'valueAsNumber'
-      | 'valueAsDate',
-      string
-    >
-  | undefined;
+export type ErrorTypes = FieldError['type'];
 
 export const useErrorMessage = () => {
   const ErrorTextMessages = useCallback(({type}: {type: ErrorTypes}) => {

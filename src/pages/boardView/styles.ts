@@ -3,12 +3,14 @@ import {
   backgroundColor,
   fullHeight,
   fullWidth,
-  lightGray,
+  large,
+  disabled,
   medium,
   primaryColor,
   secondaryColor,
   small,
   surfaceColor,
+  xxlarge,
   xxsmall,
   xxxsmall,
   xxxxsmall,
@@ -67,6 +69,25 @@ export const styles = (themeId?: string) => {
     textDark: {
       color: 'black',
       fontWeight: '700',
+    },
+
+    bottomSheetContainer: {
+      margin: xxlarge,
+      display: 'flex',
+      gap: xxlarge,
+    },
+    button: {
+      backgroundColor: primaryColor(themeId),
+      padding: large,
+      borderRadius: xxxsmall,
+    },
+    buttonText: {
+      textAlign: 'center',
+      color: 'white',
+      fontWeight: '700',
+    },
+    disabledButton: {
+      backgroundColor: disabled,
     },
   });
 };
