@@ -12,8 +12,4 @@ export const generalStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  errorText: {
-    color: 'red',
-    fontSize: 14,
-  },
 });

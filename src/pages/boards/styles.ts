@@ -101,6 +101,7 @@ export const styles = (themeId?: string) => {
     },
     title: {
       marginBottom: 10,
+      color: 'black',
     },
   });
 };

@@ -1,19 +1,16 @@
 import {useQuery} from '@realm/react';
 import React, {useCallback, useContext, useMemo} from 'react';
-import {Controller, useForm} from 'react-hook-form';
+import {Controller, FieldError, useForm} from 'react-hook-form';
 import {Button, Text, TouchableOpacity, View} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {ColorPallet} from 'src/components';
+import {ColorPallet, MyTextInput} from 'src/components';
 import {BoardObjectType, Entities} from 'src/configs';
 import context from 'src/configs/contextConfig/context';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 import {generalStyles} from 'src/constants/baseStyles';
-import {useErrorMessage} from 'src/hooks';
 
 import {BoardsList} from './boardsList';
 import {styles} from './styles';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
 export type BoardFormData = {
   title: string;
@@ -30,14 +27,7 @@ export const Boards: React.FC = React.memo(() => {
     control,
     formState: {errors},
     handleSubmit,
-  } = useForm<BoardFormData>({
-    defaultValues: {
-      title: '',
-      theme: 'red',
-      coverImage: '',
-    },
-  });
-  const {ErrorTextMessages} = useErrorMessage();
+  } = useForm();
 
   const addBoard = useCallback(
     data => {
@@ -64,30 +54,20 @@ export const Boards: React.FC = React.memo(() => {
           onPress={() => setIsCreatingBoard(false)}>
           <Icon name="close-outline" size={20} />
         </TouchableOpacity>
-        <Text style={styles().title}>Choose a Title:</Text>
-        <Controller
+        <MyTextInput
           control={control}
+          title="Choose a title"
           name="title"
-          rules={{required: true, minLength: 3, maxLength: 50}}
-          render={({field: {onChange, onBlur, value}}) => (
-            <TextInput
-              autoFocus
-              style={{fontSize: 16}}
-              placeholder="My title"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
-          )}
+          placeholder="title"
+          rules={{required: true, maxLength: 50, minLength: 3}}
+          errorType={errors['title']?.type as FieldError['type']}
         />
-        <Text style={generalStyles.errorText}>
-          {ErrorTextMessages({type: errors.title?.type})}
-        </Text>
 
         <Controller
           control={control}
           name="theme"
           rules={{required: true}}
+          defaultValue={'red'}
           render={({field: {onChange, value}}) => (
             <>
               <Text style={styles().title}>Choose a theme:</Text>
@@ -128,14 +108,7 @@ export const Boards: React.FC = React.memo(() => {
         />
       </View>
     );
-  }, [
-    control,
-    ErrorTextMessages,
-    errors.title?.type,
-    handleSubmit,
-    addBoard,
-    setIsCreatingBoard,
-  ]);
+  }, [control, errors.title?.type, handleSubmit, addBoard, setIsCreatingBoard]);
 
   const addNewBoard = useMemo(() => {
     return (
