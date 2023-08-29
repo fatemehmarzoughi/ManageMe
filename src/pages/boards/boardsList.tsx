@@ -1,6 +1,7 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
+import reverse from 'lodash/reverse';
 import LottieView from 'lottie-react-native';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {FieldError, useForm} from 'react-hook-form';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -51,10 +52,12 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
     [pressedItemId, realm, setIsEditing, setIsModalOpen],
   );
 
+  const reversedBoards = useMemo(() => reverse(boards), [boards]);
+
   return (
     <>
       <FlatList
-        data={boards}
+        data={reversedBoards}
         style={styles().boardsList}
         keyExtractor={item => String(item.id)}
         renderItem={({item: {id, themeId, coverImage, title}}) => (
@@ -72,7 +75,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                       name="title"
                       placeholder={title}
                       rules={{required: true, minLength: 3, maxLength: 50}}
-                      errorType={errors['title']?.type as FieldError['type']}
+                      errorType={errors.title?.type as FieldError['type']}
                       props={{
                         textInputProps: {
                           style: [

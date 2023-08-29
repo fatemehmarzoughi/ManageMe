@@ -5,6 +5,7 @@ export type BoardObjectType = {
   title: string;
   themeId: string;
   coverImage: string;
+  order: number;
 };
 
 export class Board extends Realm.Object<Board> {
@@ -12,6 +13,7 @@ export class Board extends Realm.Object<Board> {
   title!: string;
   themeId!: string;
   coverImage!: string;
+  order!: number;
 
   static schema = {
     name: 'Board',
@@ -21,6 +23,7 @@ export class Board extends Realm.Object<Board> {
       title: 'string',
       themeId: 'string',
       coverImage: 'string',
+      order: 'int',
     },
 
     primaryKey: 'id',
