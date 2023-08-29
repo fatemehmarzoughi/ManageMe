@@ -1,6 +1,6 @@
 {
   "name": "ManageMe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -9,7 +9,8 @@
     "start": "react-native start",
     "commitlint": "commitlint --edit",
     "prepare": "husky install",
-    "analyze": "react-native-bundle-visualizer"
+    "analyze": "react-native-bundle-visualizer",
+    "release": "standard-version"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.22.5",
@@ -35,7 +36,8 @@
     "react-native-status-bar-height": "^2.6.0",
     "react-native-toast-message": "^2.1.6",
     "react-native-vector-icons": "^10.0.0",
-    "realm": "^11.10.1"
+    "realm": "^11.10.1",
+    "standard-version": "^9.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
