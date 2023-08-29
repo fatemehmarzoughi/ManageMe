@@ -3,8 +3,8 @@ import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useQuery} from '@realm/react';
-import React, {useContext} from 'react';
-import {TouchableOpacity} from 'react-native';
+import React, {lazy, Suspense, useContext} from 'react';
+import {Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {BoardObjectType} from './configs';

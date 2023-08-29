@@ -2,10 +2,12 @@ import {StyleSheet} from 'react-native';
 import {
   fullHeight,
   fullWidth,
+  large,
   lightGray,
   medium,
   surfaceColor,
   verticalSpace,
+  xxxxxlarge,
 } from 'src/constants';
 
 export const styles = (themeId?: string) => {
@@ -26,7 +28,7 @@ export const styles = (themeId?: string) => {
       justifyContent: 'flex-start',
     },
     boardsList: {
-      height: fullHeight,
+      height: fullHeight - xxxxxlarge * large,
     },
     closeForm: {
       position: 'absolute',
