@@ -60,14 +60,14 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
         data={reversedBoards}
         style={styles().boardsList}
         keyExtractor={item => String(item.id)}
-        renderItem={({item: {id, themeId, coverImage, title}}) => (
+        renderItem={({item: {id: boardId, themeId, coverImage, title}}) => (
           <TouchableOpacity
             style={styles(themeId).card}
             onPress={() => {
-              navigation.navigate('BoardView', {themeId, title});
+              navigation.navigate('BoardView', {themeId, title, boardId});
             }}>
             <View style={[styles(themeId).cardTitle, generalStyles.centrism]}>
-              {pressedItemId === id && isEditing ? (
+              {pressedItemId === boardId && isEditing ? (
                 <View style={styles(themeId).editLabelView}>
                   <View style={styles(themeId).textInputErrorView}>
                     <MyTextInput
@@ -117,7 +117,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
             <TouchableOpacity
               style={styles(themeId).cardOptions}
               onPress={() => {
-                setPressedItemId(id);
+                setPressedItemId(boardId);
                 setIsModalOpen(true);
               }}>
               <Icon name="ellipsis-vertical-outline" color="white" size={15} />
@@ -144,10 +144,17 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
             leadingIcon: 'trash-can-outline',
             onPress: () => {
               if (pressedItemId) {
-                const i = realm.objectForPrimaryKey('Board', pressedItemId);
+                const b = realm.objectForPrimaryKey('Board', pressedItemId);
+                const s = realm
+                  .objects('StatusList')
+                  .filtered('boardId == $0', pressedItemId);
 
-                if (i && i?.isValid()) {
-                  deleteObject(i);
+                if (b && b?.isValid()) {
+                  // delete board
+                  deleteObject(b);
+
+                  // delete related statusLists
+                  s.map(i => deleteObject(i));
                 }
                 setIsModalOpen(false);
               }

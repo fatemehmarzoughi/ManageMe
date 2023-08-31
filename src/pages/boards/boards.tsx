@@ -31,8 +31,6 @@ export const Boards: React.FC = React.memo(() => {
 
   const addBoard = useCallback(
     data => {
-      console.log(data);
-
       write({
         name: Entities.Board,
         object: {

@@ -14,7 +14,7 @@ import {styles} from './styles';
 
 export type RootStackParamList = {
   Boards: undefined;
-  BoardView: {themeId: string; title: string};
+  BoardView: {themeId: string; title: string; boardId: string};
 };
 
 export const AppRoute = React.memo(() => {
