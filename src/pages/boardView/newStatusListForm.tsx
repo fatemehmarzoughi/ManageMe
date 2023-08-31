@@ -3,17 +3,21 @@ import React, {useCallback, useRef} from 'react';
 import {FieldError, useForm} from 'react-hook-form';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {MyTextInput} from 'src/components';
+import {Entities} from 'src/configs';
+import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 
 import {styles} from './styles';
 
 export type INewStatusListForm = {
   themeId: string;
   isOpen: boolean;
+  boardId: string;
 };
 
 export const NewStatusListForm: React.FC<INewStatusListForm> = React.memo(
-  ({themeId, isOpen}) => {
+  ({themeId, isOpen, boardId}) => {
     const bottomSheetRef = useRef<BottomSheet>(null);
+    const {write} = useRealmCRUD();
 
     const {
       handleSubmit,
@@ -21,10 +25,20 @@ export const NewStatusListForm: React.FC<INewStatusListForm> = React.memo(
       formState: {errors},
     } = useForm();
 
-    const onSaveNewStatusList = useCallback(data => {
-      console.log(data);
-      bottomSheetRef.current?.close();
-    }, []);
+    const onSaveNewStatusList = useCallback(
+      data => {
+        write({
+          name: Entities.StatusList,
+          object: {
+            boardId,
+            title: data.title,
+            order: 1,
+          },
+        });
+        bottomSheetRef.current?.close();
+      },
+      [boardId, write],
+    );
 
     return (
       <BottomSheet
