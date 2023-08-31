@@ -1,23 +1,23 @@
 export type StatusListObjectType = {
   id: string;
   title: string;
-  themeId: string;
-  coverImage: string;
+  order: number;
+  boardId: string;
 };
 
 export class StatusList extends Realm.Object<StatusList> {
   id!: string;
   title!: string;
-  themeId!: string;
-  coverImage!: string;
+  order!: number;
+  boardId!: string;
 
   static schema = {
     name: 'StatusList',
     properties: {
       id: 'string',
       title: 'string',
-      themeId: 'string',
-      coverImage: 'string',
+      order: 'int',
+      boardId: 'string',
     },
     primaryKey: 'id',
   };

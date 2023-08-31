@@ -1,92 +1,65 @@
-import BottomSheet from '@gorhom/bottom-sheet';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import React, {useCallback, useRef, useState} from 'react';
-import {FieldError, useForm} from 'react-hook-form';
+import {useQuery} from '@realm/react';
+import React, {useMemo, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {RootStackParamList} from 'src/AppRoute';
-import {MyTextInput} from 'src/components';
+import {StatusListObjectType} from 'src/configs';
 
+import {NewStatusListForm} from './newStatusListForm';
 import {StatusList} from './statusList';
 import {styles} from './styles';
 
 export const BoardView: React.FC = React.memo(() => {
   const route = useRoute<RouteProp<RootStackParamList, 'BoardView'>>();
-  const themeId = route.params.themeId;
+  const {themeId, boardId} = route.params;
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const bottomSheetRef = useRef<BottomSheet>(null);
+  const statusList = useQuery<StatusListObjectType>('StatusList').filtered(
+    'boardId == $0',
+    boardId,
+  );
 
-  const {
-    handleSubmit,
-    control,
-    formState: {errors},
-  } = useForm();
+  const list = !statusList.length ? [{}] : statusList;
 
-  // for test
-  const statusList = [{}, {}];
-
-  const onSaveNewStatusList = useCallback(data => {
-    console.log(data);
-    bottomSheetRef.current?.close();
-  }, []);
+  const newStatusListColumn = useMemo(() => {
+    return (
+      <TouchableOpacity
+        style={styles(themeId).statusList}
+        onPress={() => setIsOpen(prev => !prev)}>
+        <View
+          style={[
+            styles(themeId).statusListHeader,
+            styles(themeId).newStatusListHeader,
+          ]}>
+          <Text style={styles(themeId).text}>Create New List</Text>
+          <Icon name="add" size={25} color="white" />
+        </View>
+      </TouchableOpacity>
+    );
+  }, [themeId]);
 
   return (
     <>
       <FlatList
-        data={statusList} // statusLists list
+        data={list}
         horizontal
         style={styles(themeId).container}
-        renderItem={({item: list, index}) => {
-          if (index + 1 === statusList.length) {
-            return (
-              <>
-                <StatusList themeId={themeId} />
-                {/* Create New Status List */}
-                <TouchableOpacity
-                  style={styles(themeId).statusList}
-                  onPress={() => setIsOpen(prev => !prev)}>
-                  <View
-                    style={[
-                      styles(themeId).statusListHeader,
-                      styles(themeId).newStatusListHeader,
-                    ]}>
-                    <Text style={styles(themeId).text}>Create New List</Text>
-                    <Icon name="add" size={25} color="white" />
-                  </View>
-                </TouchableOpacity>
-              </>
-            );
-          }
-          return <StatusList themeId={themeId} />;
+        renderItem={({item, index}) => {
+          return (
+            <>
+              {statusList.length !== 0 && (
+                <StatusList
+                  themeId={themeId}
+                  title={(item as StatusListObjectType).title}
+                />
+              )}
+              {(index + 1 === statusList.length || statusList.length === 0) &&
+                newStatusListColumn}
+            </>
+          );
         }}
       />
-      <BottomSheet
-        ref={bottomSheetRef}
-        index={isOpen ? 0 : -1}
-        snapPoints={['30%']}
-        enableOverDrag
-        enablePanDownToClose
-        onChange={() => {}}>
-        <View style={styles(themeId).bottomSheetContainer}>
-          <MyTextInput
-            control={control}
-            name="title"
-            title="Choose a title"
-            placeholder="TO DO"
-            rules={{required: true, minLength: 3, maxLength: 20}}
-            errorType={errors.title?.type as FieldError['type']}
-          />
-          <TouchableOpacity
-            disabled={!!errors.title}
-            style={[
-              styles(themeId).button,
-              errors.title ? styles(themeId).disabledButton : null,
-            ]}
-            onPress={handleSubmit(onSaveNewStatusList)}>
-            <Text style={styles(themeId).buttonText}>Save</Text>
-          </TouchableOpacity>
-        </View>
-      </BottomSheet>
+      <NewStatusListForm themeId={themeId} isOpen={isOpen} boardId={boardId} />
     </>
   );
 });

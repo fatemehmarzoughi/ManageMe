@@ -31,19 +31,18 @@ export const Boards: React.FC = React.memo(() => {
 
   const addBoard = useCallback(
     data => {
-      console.log(data);
-
       write({
         name: Entities.Board,
         object: {
           title: data.title,
-          coverImage: 'dsfs',
           themeId: data.theme ?? 'red',
+          coverImage: 'dsfs',
+          order: boards.length + 1,
         },
       });
       setIsCreatingBoard(false);
     },
-    [setIsCreatingBoard, write],
+    [boards.length, setIsCreatingBoard, write],
   );
 
   const createNewBoardForm = useMemo(() => {
@@ -113,7 +112,7 @@ export const Boards: React.FC = React.memo(() => {
         />
       </View>
     );
-  }, [control, errors.title?.type, handleSubmit, addBoard, setIsCreatingBoard]);
+  }, [control, errors, handleSubmit, addBoard, setIsCreatingBoard]);
 
   const addNewBoard = useMemo(() => {
     return (
