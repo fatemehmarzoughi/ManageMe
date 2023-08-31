@@ -144,10 +144,17 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
             leadingIcon: 'trash-can-outline',
             onPress: () => {
               if (pressedItemId) {
-                const i = realm.objectForPrimaryKey('Board', pressedItemId);
+                const b = realm.objectForPrimaryKey('Board', pressedItemId);
+                const s = realm
+                  .objects('StatusList')
+                  .filtered('boardId == $0', pressedItemId);
 
-                if (i && i?.isValid()) {
-                  deleteObject(i);
+                if (b && b?.isValid()) {
+                  // delete board
+                  deleteObject(b);
+
+                  // delete related statusLists
+                  s.map(i => deleteObject(i));
                 }
                 setIsModalOpen(false);
               }
