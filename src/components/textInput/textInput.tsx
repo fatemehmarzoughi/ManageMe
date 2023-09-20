@@ -41,7 +41,6 @@ export const MyTextInput: React.FC<IMyTextInput> = React.memo(
           render={({field: {onChange, name, value}}) => (
             <TextInput
               focusable
-              autoFocus
               placeholder={placeholder}
               onChangeText={onChange}
               value={value}
