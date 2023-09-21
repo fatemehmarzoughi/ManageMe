@@ -4,39 +4,43 @@ import {BottomSheetForm} from 'src/components';
 import {Entities} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 
-export type INewTaskForm = {
+export type INewStatusListForm = {
   themeId: string;
   isOpen: boolean;
   boardId: string;
-  statusListId: string;
+  onClose?: () => void;
 };
 
-export const NewTaskForm: React.FC<INewTaskForm> = React.memo(
-  ({themeId, isOpen, boardId, statusListId}) => {
+export const NewStatusListForm: React.FC<INewStatusListForm> = React.memo(
+  ({themeId, isOpen, boardId, onClose}) => {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const {write} = useRealmCRUD();
 
     const onSaveNewStatusList = useCallback(
       data => {
         write({
-          name: Entities.Task,
+          name: Entities.StatusList,
           object: {
-            title: data.title,
-            description: data.description,
             boardId,
-            statusListId,
+            title: data.title,
+            order: 1,
           },
         });
         bottomSheetRef.current?.close();
       },
-      [boardId, statusListId, write],
+      [boardId, write],
     );
 
     return (
       <BottomSheetForm
+        bottomSheetRef={bottomSheetRef}
+        title={'Create new status list'}
         isOpen={isOpen}
         themeId={themeId}
         onSave={onSaveNewStatusList}
+        otherProps={{
+          onClose,
+        }}
         inputFields={[
           {
             name: 'title',
@@ -48,12 +52,6 @@ export const NewTaskForm: React.FC<INewTaskForm> = React.memo(
                 autoFocus: true,
               },
             },
-          },
-          {
-            name: 'description',
-            title: 'Write a description for your task',
-            placeholder: 'This task is about ...',
-            rules: {required: true, minLength: 3, maxLength: 100},
           },
         ]}
       />

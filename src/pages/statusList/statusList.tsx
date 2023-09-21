@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {PopupMenu} from 'src/components';
+import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 
 import {TaskList} from '../taskList';
 import {NewTaskForm} from '../taskList/newTaskForm';
 import {StatusListHeader} from './statusListHeader';
+import {StatusListPopUp} from './statusListPopUp';
 
 export type IStatusList = {
   themeId: string;
@@ -33,35 +35,19 @@ export const StatusList: React.FC<IStatusList> = React.memo(
             statusListId={statusListId}
           />
         </StatusListHeader>
-        <PopupMenu
+
+        <StatusListPopUp
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          IPopupMenuItem={[
-            {
-              id: '0',
-              title: 'Edit',
-              leadingIcon: 'pencil',
-              onPress: () => {
-                setIsModalOpen(false);
-                // edit the status list
-              },
-            },
-            {
-              id: '1',
-              title: 'Delete',
-              leadingIcon: 'trash-can-outline',
-              onPress: () => {
-                setIsModalOpen(false);
-                // remove the statusList
-              },
-            },
-          ]}
+          statusListId={statusListId}
         />
+
         <NewTaskForm
           themeId={themeId}
           boardId={boardId}
           isOpen={isTaskForm}
           statusListId={statusListId}
+          onClose={() => setIsTaskForm(false)}
         />
       </>
     );

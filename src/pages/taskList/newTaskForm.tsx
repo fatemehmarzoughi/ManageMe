@@ -1,40 +1,57 @@
 import BottomSheet from '@gorhom/bottom-sheet';
+import {useQuery} from '@realm/react';
 import React, {useCallback, useRef} from 'react';
 import {BottomSheetForm} from 'src/components';
-import {Entities} from 'src/configs';
+import {Entities, StatusListObjectType} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 
-export type INewStatusListForm = {
+export type INewTaskForm = {
   themeId: string;
   isOpen: boolean;
   boardId: string;
+  statusListId: string;
+  onClose?: () => void;
 };
 
-export const NewStatusListForm: React.FC<INewStatusListForm> = React.memo(
-  ({themeId, isOpen, boardId}) => {
+export const NewTaskForm: React.FC<INewTaskForm> = React.memo(
+  ({themeId, isOpen, boardId, statusListId, onClose}) => {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const {write} = useRealmCRUD();
 
     const onSaveNewStatusList = useCallback(
       data => {
         write({
-          name: Entities.StatusList,
+          name: Entities.Task,
           object: {
-            boardId,
             title: data.title,
-            order: 1,
+            description: data.description,
+            boardId,
+            statusListId,
+            deadline: new Date(),
+            labelColor: 'red',
           },
         });
         bottomSheetRef.current?.close();
       },
-      [boardId, write],
+      [boardId, statusListId, write],
+    );
+
+    const statusList = useQuery<StatusListObjectType>('StatusList').filtered(
+      'id == $0',
+      statusListId,
     );
 
     return (
       <BottomSheetForm
+        bottomSheetRef={bottomSheetRef}
+        title={statusList[0]?.title ?? ''}
         isOpen={isOpen}
         themeId={themeId}
         onSave={onSaveNewStatusList}
+        otherProps={{
+          snapPoints: ['40%'],
+          onClose,
+        }}
         inputFields={[
           {
             name: 'title',
@@ -46,6 +63,12 @@ export const NewStatusListForm: React.FC<INewStatusListForm> = React.memo(
                 autoFocus: true,
               },
             },
+          },
+          {
+            name: 'description',
+            title: 'Write a description for your task',
+            placeholder: 'This task is about ...',
+            rules: {required: true, minLength: 3, maxLength: 100},
           },
         ]}
       />

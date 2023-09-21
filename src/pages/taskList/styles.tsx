@@ -21,10 +21,19 @@ export const styles = (themeId?: string) => {
       backgroundColor: secondaryColor(themeId),
       padding: medium,
       borderRadius: xxxsmall,
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
     text: {
       color: 'white',
       fontWeight: '700',
+    },
+    description: {
+      color: 'white',
+      fontWeight: '400',
+      marginTop: xxxsmall,
     },
   });
 };
