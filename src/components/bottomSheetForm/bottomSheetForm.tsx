@@ -9,16 +9,25 @@ import {fullWidth} from 'src/constants';
 import {styles} from './styles';
 
 export type IBottomSheetForm = {
+  title: string;
   themeId: string;
   isOpen: boolean;
   onSave: SubmitHandler<FieldValues>;
-  inputFields: Omit<IMyTextInput, 'control'>[];
+  inputFields: Omit<IMyTextInput, 'control' | 'errorType'>[];
   bottomSheetRef?: React.RefObject<BottomSheetMethods>;
-  otherProps?: BottomSheetProps;
+  otherProps?: Partial<Omit<BottomSheetProps, 'children'>>;
 };
 
 export const BottomSheetForm: React.FC<IBottomSheetForm> = React.memo(
-  ({inputFields, isOpen, onSave, themeId, bottomSheetRef, otherProps}) => {
+  ({
+    inputFields,
+    isOpen,
+    onSave,
+    themeId,
+    bottomSheetRef,
+    otherProps,
+    title,
+  }) => {
     const {
       handleSubmit,
       control,
@@ -29,7 +38,7 @@ export const BottomSheetForm: React.FC<IBottomSheetForm> = React.memo(
       <BottomSheet
         ref={bottomSheetRef}
         index={isOpen ? 0 : -1}
-        snapPoints={['30%']}
+        snapPoints={['35%']}
         enableOverDrag
         style={{width: fullWidth}}
         detached
@@ -37,6 +46,7 @@ export const BottomSheetForm: React.FC<IBottomSheetForm> = React.memo(
         enablePanDownToClose
         {...otherProps}>
         <View style={styles(themeId).bottomSheetContainer}>
+          <Text style={styles(themeId).title}>{title}</Text>
           {inputFields.map(input => (
             <MyTextInput
               control={control}
