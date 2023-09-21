@@ -6,6 +6,7 @@ import {TaskObjectType} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 
 import {styles} from './styles';
+import {DraggableBox} from 'src/components';
 
 export type ITaskList = {
   themeId: string;
@@ -35,6 +36,7 @@ export const TaskList: React.FC<ITaskList> = React.memo(
         data={tasks} //tasks list
         style={styles(themeId).tasksContainer}
         renderItem={({item: task}) => (
+          // <DraggableBox>
           <View style={styles(themeId).tasksContainer}>
             <View style={styles(themeId).taskCard}>
               <View>
@@ -48,6 +50,7 @@ export const TaskList: React.FC<ITaskList> = React.memo(
               </TouchableOpacity>
             </View>
           </View>
+          // </DraggableBox>
         )}
       />
     );
