@@ -39,7 +39,11 @@ export const StatusListHeader: React.FC<IStatusListHeaderProps> = React.memo(
       const {onPress} = configs;
       return (
         <TouchableOpacity style={styles(themeId).statusList} onPress={onPress}>
-          <View style={[styles(themeId).statusListHeader]}>
+          <View
+            style={[
+              styles(themeId).statusListHeader,
+              styles(themeId).statusListHeaderNew,
+            ]}>
             <Text style={styles(themeId).text}>Create New List</Text>
             <Icon name="add" size={25} color="white" />
           </View>

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Controller, FieldError, UseControllerProps} from 'react-hook-form';
 import {
   Text,
@@ -26,10 +26,6 @@ export type IMyTextInput = {
 export const MyTextInput: React.FC<IMyTextInput> = React.memo(
   ({name, title, rules, control, placeholder, errorType, props}) => {
     const {ErrorTextMessages} = useErrorMessage();
-
-    useEffect(() => {
-      console.log(errorType);
-    }, [errorType]);
 
     return (
       <View style={styles().container} {...props?.root}>

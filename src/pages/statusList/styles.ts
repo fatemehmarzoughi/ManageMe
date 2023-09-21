@@ -26,7 +26,9 @@ export const styles = (themeId?: string) => {
       justifyContent: 'space-between',
       flexDirection: 'row',
       gap: small,
-      width: (2 * fullWidth) / 3,
+      width: (2 * fullWidth) / 2.8,
+    },
+    statusListHeaderNew: {
       borderRadius: xxxsmall,
     },
     text: {

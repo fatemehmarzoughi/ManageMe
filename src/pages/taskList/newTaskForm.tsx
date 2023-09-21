@@ -1,7 +1,8 @@
 import BottomSheet from '@gorhom/bottom-sheet';
+import {useQuery} from '@realm/react';
 import React, {useCallback, useRef} from 'react';
 import {BottomSheetForm} from 'src/components';
-import {Entities} from 'src/configs';
+import {Entities, StatusListObjectType} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 
 export type INewTaskForm = {
@@ -9,10 +10,11 @@ export type INewTaskForm = {
   isOpen: boolean;
   boardId: string;
   statusListId: string;
+  onClose?: () => void;
 };
 
 export const NewTaskForm: React.FC<INewTaskForm> = React.memo(
-  ({themeId, isOpen, boardId, statusListId}) => {
+  ({themeId, isOpen, boardId, statusListId, onClose}) => {
     const bottomSheetRef = useRef<BottomSheet>(null);
     const {write} = useRealmCRUD();
 
@@ -25,6 +27,8 @@ export const NewTaskForm: React.FC<INewTaskForm> = React.memo(
             description: data.description,
             boardId,
             statusListId,
+            deadline: new Date(),
+            labelColor: 'red',
           },
         });
         bottomSheetRef.current?.close();
@@ -32,11 +36,22 @@ export const NewTaskForm: React.FC<INewTaskForm> = React.memo(
       [boardId, statusListId, write],
     );
 
+    const statusList = useQuery<StatusListObjectType>('StatusList').filtered(
+      'id == $0',
+      statusListId,
+    );
+
     return (
       <BottomSheetForm
+        bottomSheetRef={bottomSheetRef}
+        title={statusList[0]?.title ?? ''}
         isOpen={isOpen}
         themeId={themeId}
         onSave={onSaveNewStatusList}
+        otherProps={{
+          snapPoints: ['40%'],
+          onClose,
+        }}
         inputFields={[
           {
             name: 'title',

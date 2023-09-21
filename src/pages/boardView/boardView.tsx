@@ -5,9 +5,7 @@ import {FlatList} from 'react-native';
 import {RootStackParamList} from 'src/AppRoute';
 import {StatusListObjectType} from 'src/configs';
 
-import {StatusListHeader} from './statusList';
-import {NewStatusListForm} from './statusList/newStatusListForm';
-import {StatusList} from './statusList/statusList';
+import {NewStatusListForm, StatusList, StatusListHeader} from '../statusList';
 import {styles} from './styles';
 
 export const BoardView: React.FC = React.memo(() => {
@@ -49,7 +47,12 @@ export const BoardView: React.FC = React.memo(() => {
           );
         }}
       />
-      <NewStatusListForm themeId={themeId} isOpen={isOpen} boardId={boardId} />
+      <NewStatusListForm
+        themeId={themeId}
+        isOpen={isOpen}
+        boardId={boardId}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 });
