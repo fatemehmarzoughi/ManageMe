@@ -2,11 +2,11 @@ import {useQuery} from '@realm/react';
 import React, {useCallback} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {DraggableBox} from 'src/components';
 import {TaskObjectType} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 
 import {styles} from './styles';
-import {DraggableBox} from 'src/components';
 
 export type ITaskList = {
   themeId: string;

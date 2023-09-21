@@ -49,7 +49,6 @@ export const NewTaskForm: React.FC<INewTaskForm> = React.memo(
         themeId={themeId}
         onSave={onSaveNewStatusList}
         otherProps={{
-          snapPoints: ['40%'],
           onClose,
         }}
         inputFields={[
