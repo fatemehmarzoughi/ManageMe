@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Controller, FieldError, UseControllerProps} from 'react-hook-form';
 import {
   Text,
@@ -27,10 +27,6 @@ export const MyTextInput: React.FC<IMyTextInput> = React.memo(
   ({name, title, rules, control, placeholder, errorType, props}) => {
     const {ErrorTextMessages} = useErrorMessage();
 
-    useEffect(() => {
-      console.log(errorType);
-    }, [errorType]);
-
     return (
       <View style={styles().container} {...props?.root}>
         {title && <Text style={styles().title}>{title}</Text>}
@@ -41,7 +37,6 @@ export const MyTextInput: React.FC<IMyTextInput> = React.memo(
           render={({field: {onChange, name, value}}) => (
             <TextInput
               focusable
-              autoFocus
               placeholder={placeholder}
               onChangeText={onChange}
               value={value}

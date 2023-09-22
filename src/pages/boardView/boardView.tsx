@@ -1,13 +1,11 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {useQuery} from '@realm/react';
-import React, {useMemo, useState} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React, {useState} from 'react';
+import {FlatList} from 'react-native';
 import {RootStackParamList} from 'src/AppRoute';
 import {StatusListObjectType} from 'src/configs';
 
-import {NewStatusListForm} from './newStatusListForm';
-import {StatusList} from './statusList';
+import {NewStatusListForm, StatusList, StatusListHeader} from '../statusList';
 import {styles} from './styles';
 
 export const BoardView: React.FC = React.memo(() => {
@@ -21,23 +19,6 @@ export const BoardView: React.FC = React.memo(() => {
 
   const list = !statusList.length ? [{}] : statusList;
 
-  const newStatusListColumn = useMemo(() => {
-    return (
-      <TouchableOpacity
-        style={styles(themeId).statusList}
-        onPress={() => setIsOpen(prev => !prev)}>
-        <View
-          style={[
-            styles(themeId).statusListHeader,
-            styles(themeId).newStatusListHeader,
-          ]}>
-          <Text style={styles(themeId).text}>Create New List</Text>
-          <Icon name="add" size={25} color="white" />
-        </View>
-      </TouchableOpacity>
-    );
-  }, [themeId]);
-
   return (
     <>
       <FlatList
@@ -50,16 +31,28 @@ export const BoardView: React.FC = React.memo(() => {
               {statusList.length !== 0 && (
                 <StatusList
                   themeId={themeId}
+                  boardId={boardId}
+                  statusListId={(item as StatusListObjectType).id}
                   title={(item as StatusListObjectType).title}
                 />
               )}
-              {(index + 1 === statusList.length || statusList.length === 0) &&
-                newStatusListColumn}
+              {(index + 1 === statusList.length || statusList.length === 0) && (
+                <StatusListHeader
+                  themeId={themeId}
+                  type="New"
+                  configs={{onPress: () => setIsOpen(prev => !prev)}}
+                />
+              )}
             </>
           );
         }}
       />
-      <NewStatusListForm themeId={themeId} isOpen={isOpen} boardId={boardId} />
+      <NewStatusListForm
+        themeId={themeId}
+        isOpen={isOpen}
+        boardId={boardId}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 });
