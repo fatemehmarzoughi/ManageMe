@@ -9,7 +9,7 @@ export type IBoardImage = {
 export const BoardImage: React.FC<IBoardImage> = React.memo(
   ({coverImage, ...imageProps}) => {
     const images = importAll(
-      require.context('../../assets/images/boardsImage', false, /\.png/),
+      require.context('../../assets/images/boardsImage', false, /\.jpg/),
     );
 
     const generateUrl = useMemo(() => {

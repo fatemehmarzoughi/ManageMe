@@ -103,7 +103,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
               )}
               <Icon
                 name="apps-outline"
-                style={{alignSelf: 'start'}}
+                style={{alignSelf: 'flex-start'}}
                 size={25}
                 color="white"
               />
