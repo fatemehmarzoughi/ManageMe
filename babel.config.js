@@ -15,6 +15,7 @@ module.exports = function (api) {
       ],
     ],
     plugins: [
+      'import-glob',
       [
         'babel-plugin-module-resolver',
         {

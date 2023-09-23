@@ -1,6 +1,6 @@
 {
   "name": "ManageMe",
-  "version": "0.0.3",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -10,7 +10,10 @@
     "commitlint": "commitlint --edit",
     "prepare": "husky install",
     "analyze": "react-native-bundle-visualizer",
-    "release": "standard-version"
+    "release": "standard-version",
+    "android-release-on-mac": "cd android && ./gradlew assembleRelease",
+    "android-release-on-win": "cd android && gradlew assembleRelease",
+    "android-clean": "cd android && ./gradlew clean"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.22.5",
@@ -49,7 +52,9 @@
     "@tsconfig/react-native": "^3.0.0",
     "@types/react": "^18.0.24",
     "@types/react-test-renderer": "^18.0.0",
+    "@types/webpack-env": "^1.18.1",
     "babel-jest": "^29.2.1",
+    "babel-plugin-import-glob": "^2.0.0",
     "eslint": "^8.19.0",
     "husky": "^8.0.3",
     "jest": "^29.2.1",
