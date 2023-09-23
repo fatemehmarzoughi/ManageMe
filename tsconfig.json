@@ -15,7 +15,8 @@
     "types": [
       "react",
       "react-native",
-      "jest"
+      "jest",
+      "webpack-env"
     ],
     "moduleResolution": "node",
     "noEmit": true,
