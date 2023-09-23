@@ -38,7 +38,7 @@ export const BottomSheetForm: React.FC<IBottomSheetForm> = React.memo(
       <BottomSheet
         ref={bottomSheetRef}
         index={isOpen ? 0 : -1}
-        snapPoints={['35%']}
+        snapPoints={['70%', '100%']}
         enableOverDrag
         style={{width: fullWidth}}
         detached
