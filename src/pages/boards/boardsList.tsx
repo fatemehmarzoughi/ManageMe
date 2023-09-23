@@ -3,13 +3,21 @@ import reverse from 'lodash/reverse';
 import LottieView from 'lottie-react-native';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {FieldError, useForm} from 'react-hook-form';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ImageProps,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {MyTextInput, PopupMenu} from 'src/components';
 import {BoardObjectType} from 'src/configs';
 import {useRealmCRUD} from 'src/configs/realmConfig/hooks';
 import {generalStyles} from 'src/constants';
 
+import {BoardImage} from './boardImage';
 import {styles} from './styles';
 
 export type ErrorTypes = {
@@ -108,10 +116,14 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                 color="white"
               />
             </View>
-            <LottieView
+            {/* <LottieView
               loop={false}
               autoPlay={true}
               source={require('../../assets/animations/books.json')}
+              style={styles(themeId).cardPic}
+            /> */}
+            <BoardImage
+              boardsLength={boards.length}
               style={styles(themeId).cardPic}
             />
             <TouchableOpacity
@@ -149,7 +161,7 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                   .objects('StatusList')
                   .filtered('boardId == $0', pressedItemId);
                 const tasks = realm
-                  .objects('Tasks')
+                  .objects('Task')
                   .filtered('boardId == $0', pressedItemId);
 
                 if (board && board?.isValid()) {
@@ -157,10 +169,14 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                   deleteObject(board);
 
                   // delete related statusLists
-                  statusLists.map(s => deleteObject(s));
+                  if (statusLists && statusLists.isValid()) {
+                    statusLists.map(s => deleteObject(s));
+                  }
 
                   // delete related tasks
-                  tasks.map(t => deleteObject(t));
+                  if (tasks && tasks.isValid()) {
+                    tasks.map(t => deleteObject(t));
+                  }
                 }
                 setIsModalOpen(false);
               }
