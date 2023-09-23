@@ -61,9 +61,11 @@ export const styles = (themeId?: string) => {
       alignSelf: 'flex-start',
     },
     cardPic: {
-      width: 80,
-      height: 80,
-      alignSelf: 'flex-end',
+      width: 90,
+      height: 90,
+      position: 'absolute',
+      right: 10,
+      bottom: 10,
     },
     cardOptions: {
       position: 'absolute',

@@ -1,16 +1,8 @@
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import reverse from 'lodash/reverse';
-import LottieView from 'lottie-react-native';
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {FieldError, useForm} from 'react-hook-form';
-import {
-  FlatList,
-  Image,
-  ImageProps,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {MyTextInput, PopupMenu} from 'src/components';
 import {BoardObjectType} from 'src/configs';
@@ -116,15 +108,9 @@ export const BoardsList: React.FC<IBoardsListProps> = React.memo(({boards}) => {
                 color="white"
               />
             </View>
-            {/* <LottieView
-              loop={false}
-              autoPlay={true}
-              source={require('../../assets/animations/books.json')}
-              style={styles(themeId).cardPic}
-            /> */}
             <BoardImage
-              boardsLength={boards.length}
               style={styles(themeId).cardPic}
+              coverImage={coverImage}
             />
             <TouchableOpacity
               style={styles(themeId).cardOptions}

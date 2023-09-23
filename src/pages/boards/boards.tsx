@@ -36,7 +36,9 @@ export const Boards: React.FC = React.memo(() => {
         object: {
           title: data.title,
           themeId: data.theme ?? 'red',
-          coverImage: 'dsfs',
+          coverImage: `todo${
+            String(boards.length)[String(boards.length).length - 1]
+          }.png`,
           order: boards.length + 1,
         },
       });
