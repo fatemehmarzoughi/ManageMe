@@ -1,6 +1,6 @@
 {
   "name": "ManageMe",
-  "version": "0.0.3",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
@@ -10,7 +10,10 @@
     "commitlint": "commitlint --edit",
     "prepare": "husky install",
     "analyze": "react-native-bundle-visualizer",
-    "release": "standard-version"
+    "release": "standard-version",
+    "android-release-on-mac": "cd android && ./gradlew assembleRelease",
+    "android-release-on-win": "cd android && gradlew assembleRelease",
+    "android-clean": "cd android && ./gradlew clean"
   },
   "dependencies": {
     "@babel/preset-flow": "^7.22.5",
