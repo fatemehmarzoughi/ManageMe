@@ -14,7 +14,7 @@ export const useErrorMessage = () => {
         text = 'Cannot be less than 3 letters';
         break;
       case 'required':
-        text = 'Title is required';
+        text = 'This field is required';
         break;
 
       default:

@@ -3,12 +3,14 @@ import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useQuery} from '@realm/react';
-import React, {lazy, Suspense, useContext} from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import {TouchableOpacity} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {BoardObjectType} from './configs';
 import context from './configs/contextConfig/context';
+import {isIOS} from './constants';
 import {Boards, BoardView} from './pages';
 import {styles} from './styles';
 
@@ -21,6 +23,12 @@ export const AppRoute = React.memo(() => {
   const Stack = createStackNavigator<RootStackParamList>();
   const {setIsCreatingBoard} = useContext(context);
   const boards = useQuery<BoardObjectType>('Board');
+
+  useEffect(() => {
+    if (!isIOS) {
+      SplashScreen.hide();
+    }
+  }, []);
 
   return (
     <NavigationContainer>

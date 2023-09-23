@@ -52,7 +52,7 @@ export const styles = (themeId?: string) => {
       backgroundColor: surfaceColor(themeId),
       padding: 10,
       position: 'relative',
-      height: 130,
+      height: 120,
     },
     cardText: {
       color: 'white',
@@ -61,11 +61,9 @@ export const styles = (themeId?: string) => {
       alignSelf: 'flex-start',
     },
     cardPic: {
-      width: 100,
-      height: 100,
-      position: 'absolute',
-      right: 0,
-      bottom: 0,
+      width: 80,
+      height: 80,
+      alignSelf: 'flex-end',
     },
     cardOptions: {
       position: 'absolute',
