@@ -1,6 +1,6 @@
 # ManageMe
 A <b>React-Native</b> application on both <b>Android</b> and <b>iOS</b> for managing your daily tasks</br>
-version: 1.0.0
+<a href="https://github.com/fatemehmarzoughi/ManageMe/blob/main/CHANGELOG.md">version: 1.0.0</a>
 
 ## 🎉 App Installation<br>
 <b> For Android run : </b><br>
