@@ -7,6 +7,7 @@ export const fullWidth = Dimensions.get('window').width;
 export const fullHeight = Dimensions.get('window').height;
 export const verticalSpace = 40;
 export const toastVisibilityDuration = 10;
+export const isIOS = Platform.OS === 'ios';
 
 export const xxxxsmall = 2;
 export const xxxsmall = 4;

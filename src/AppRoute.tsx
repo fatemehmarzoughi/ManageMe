@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {BoardObjectType} from './configs';
 import context from './configs/contextConfig/context';
+import {isIOS} from './constants';
 import {Boards, BoardView} from './pages';
 import {styles} from './styles';
 
@@ -24,7 +25,9 @@ export const AppRoute = React.memo(() => {
   const boards = useQuery<BoardObjectType>('Board');
 
   useEffect(() => {
-    SplashScreen.hide();
+    if (!isIOS) {
+      SplashScreen.hide();
+    }
   }, []);
 
   return (
